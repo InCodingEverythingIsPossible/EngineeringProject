@@ -1,0 +1,29 @@
+{
+	"name": "ds_all_tickers_symbols",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_data_lake_gen_2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileNumber": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "all_tickers_symbol@{dataset().FileNumber}.json",
+					"type": "Expression"
+				},
+				"folderPath": "tickers_symbol",
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

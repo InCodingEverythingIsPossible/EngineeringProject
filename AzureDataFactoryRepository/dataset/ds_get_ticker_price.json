@@ -1,0 +1,27 @@
+{
+	"name": "ds_get_ticker_price",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_polygon_api",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PolygonApiKey": {
+				"type": "string"
+			},
+			"TickerSymbol": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "v2/aggs/ticker/@{dataset().TickerSymbol}/range/1/day/2023-04-03/2025-03-23?adjusted=true&sort=asc&limit=5000&apiKey=@{dataset().PolygonApiKey}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

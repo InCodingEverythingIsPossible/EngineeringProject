@@ -1,0 +1,30 @@
+{
+	"name": "ds_get_nasdaq_100_tickers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_data_lake_gen_2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "nasdaq100_tickers",
+				"fileSystem": "gold"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"ticker": {
+					"type": "string"
+				},
+				"company_name": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,27 @@
+{
+	"name": "ds_get_financial",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_polygon_api",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PolygonApiKey": {
+				"type": "string"
+			},
+			"TickerSymbol": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "vX/reference/financials?ticker=@{dataset().TickerSymbol}&filing_date.gte=2010-01-01&order=asc&limit=100&sort=filing_date&apiKey=@{dataset().PolygonApiKey}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

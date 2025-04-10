@@ -1,0 +1,34 @@
+{
+	"name": "ds_get_ticker_details_dates",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_data_lake_gen_2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "*",
+				"folderPath": "ticker_details_dates",
+				"fileSystem": "gold"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"year": {
+					"type": "integer"
+				},
+				"week_of_year": {
+					"type": "integer"
+				},
+				"date": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

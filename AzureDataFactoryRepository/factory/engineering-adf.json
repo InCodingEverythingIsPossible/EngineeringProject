@@ -1,0 +1,9 @@
+{
+	"name": "engineering-adf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f06a71a0-294d-44ed-9ce6-f9dc981f9a9c",
+		"tenantId": "d3626324-efe8-44ae-b7e2-a08438e42b15"
+	}
+}

@@ -1,0 +1,1015 @@
+{
+	"name": "ds_ticker_details",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_data_lake_gen_2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TickerSymbol": {
+				"type": "string"
+			},
+			"Date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().TickerSymbol}_details_@{dataset().Date}.json",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "tickers_detail/@{dataset().TickerSymbol}",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"results": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"start_date": {
+								"type": "string"
+							},
+							"end_date": {
+								"type": "string"
+							},
+							"timeframe": {
+								"type": "string"
+							},
+							"fiscal_period": {
+								"type": "string"
+							},
+							"fiscal_year": {
+								"type": "string"
+							},
+							"cik": {
+								"type": "string"
+							},
+							"sic": {
+								"type": "string"
+							},
+							"tickers": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							},
+							"company_name": {
+								"type": "string"
+							},
+							"financials": {
+								"type": "object",
+								"properties": {
+									"balance_sheet": {
+										"type": "object",
+										"properties": {
+											"current_liabilities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"other_current_liabilities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"equity": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"equity_attributable_to_parent": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"liabilities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"accounts_payable": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"intangible_assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"liabilities_and_equity": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"other_noncurrent_assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"current_assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"equity_attributable_to_noncontrolling_interest": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "integer"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"noncurrent_assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"other_current_assets": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"inventory": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"noncurrent_liabilities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											}
+										}
+									},
+									"comprehensive_income": {
+										"type": "object",
+										"properties": {
+											"comprehensive_income_loss": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"comprehensive_income_loss_attributable_to_parent": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"comprehensive_income_loss_attributable_to_noncontrolling_interest": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "integer"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"other_comprehensive_income_loss": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											}
+										}
+									},
+									"income_statement": {
+										"type": "object",
+										"properties": {
+											"basic_average_shares": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"revenues": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"basic_earnings_per_share": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_income_loss_attributable_to_parent": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"costs_and_expenses": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"income_tax_expense_benefit_deferred": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"nonoperating_income_loss": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"income_loss_before_equity_method_investments": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"gross_profit": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_income_loss": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"operating_expenses": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"diluted_average_shares": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"operating_income_loss": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_income_loss_attributable_to_noncontrolling_interest": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "integer"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"cost_of_revenue": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_income_loss_available_to_common_stockholders_basic": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"benefits_costs_expenses": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"selling_general_and_administrative_expenses": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"research_and_development": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"income_tax_expense_benefit": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"participating_securities_distributed_and_undistributed_earnings_loss_basic": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "integer"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"income_loss_from_continuing_operations_before_tax": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"preferred_stock_dividends_and_other_adjustments": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "integer"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"diluted_earnings_per_share": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"income_loss_from_continuing_operations_after_tax": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											}
+										}
+									},
+									"cash_flow_statement": {
+										"type": "object",
+										"properties": {
+											"net_cash_flow_from_financing_activities_continuing": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_from_operating_activities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_from_operating_activities_continuing": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_from_investing_activities_continuing": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_from_financing_activities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_continuing": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											},
+											"net_cash_flow_from_investing_activities": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													},
+													"order": {
+														"type": "integer"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"status": {
+					"type": "string"
+				},
+				"request_id": {
+					"type": "string"
+				},
+				"count": {
+					"type": "integer"
+				},
+				"next_url": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

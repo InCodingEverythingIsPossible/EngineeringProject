@@ -1,0 +1,30 @@
+{
+	"name": "ds_get_ticker_details",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_polygon_api",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PolygonApiKey": {
+				"type": "securestring"
+			},
+			"TickerSymbol": {
+				"type": "string"
+			},
+			"DetailsDate": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "v3/reference/tickers/@{dataset().TickerSymbol}?date=@{dataset().DetailsDate}&apiKey=@{dataset().PolygonApiKey}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,32 @@
+{
+	"name": "ds_financial",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_data_lake_gen_2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TickerSymbol": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().TickerSymbol}_financial_data.json",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "financial_data",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

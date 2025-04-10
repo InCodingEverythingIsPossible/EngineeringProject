@@ -1,0 +1,203 @@
+{
+	"name": "CopyAllTickersSymbol",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Read ApiKey from AKV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "MergeFiles"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_get_all_tickers_symbols",
+						"type": "DatasetReference",
+						"parameters": {
+							"PolygonApiKey": {
+								"value": "@activity('Read ApiKey from AKV').output.value",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_all_tickers_symbols",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileNumber": {
+								"value": "@variables('FileNumber')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Read ApiKey from AKV",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": {
+						"value": "https://engineering-keyv.vault.azure.net/secrets/PolygonApiKey/3f85924200f948da813db0a3e777f31d?api-version=7.0",
+						"type": "Expression"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "Copy data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('SymbolLeft'), false)",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CopyRemainingTickersSymbol_copy1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "CopyRemainingTickersSymbol",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"InputFileNumber": {
+										"value": "@variables('FileNumber')",
+										"type": "Expression"
+									},
+									"PolygonApiKey": {
+										"value": "@activity('Read ApiKey from AKV').output.value",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "CopyRemainingTickersSymbol_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "SymbolLeft",
+								"value": {
+									"value": "@activity('CopyRemainingTickersSymbol_copy1').output.pipelineReturnValue.SymbolLeft",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FileNumber",
+								"value": {
+									"value": "@int(activity('CopyRemainingTickersSymbol_copy1').output.pipelineReturnValue.FileNumber)",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"variables": {
+			"FileNumber": {
+				"type": "Integer",
+				"defaultValue": 1
+			},
+			"SymbolLeft": {
+				"type": "Boolean",
+				"defaultValue": true
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-03-24T11:23:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

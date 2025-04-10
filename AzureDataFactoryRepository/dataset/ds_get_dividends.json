@@ -1,0 +1,27 @@
+{
+	"name": "ds_get_dividends",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_polygon_api",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PolygonApiKey": {
+				"type": "string"
+			},
+			"TickerSymbol": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "v3/reference/dividends?ticker=@{dataset().TickerSymbol}&order=asc&limit=1000&sort=pay_date&apiKey=@{dataset().PolygonApiKey}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

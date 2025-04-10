@@ -1,0 +1,24 @@
+{
+	"name": "ds_get_all_tickers_symbols",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_polygon_api",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"PolygonApiKey": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "v3/reference/tickers?type=CS&market=stocks&exchange=XNAS&active=true&order=asc&limit=1000&sort=ticker&apiKey=@{dataset().PolygonApiKey}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
