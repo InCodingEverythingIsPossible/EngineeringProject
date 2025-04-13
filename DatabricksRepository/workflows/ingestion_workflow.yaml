@@ -1,0 +1,49 @@
+resources:
+  jobs:
+    ingestion_workflow:
+      name: ingestion_workflow
+      tasks:
+        - task_key: create_processed_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/setup/create_processed_database
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: create_raw_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/setup/create_raw_database
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: ingest_dividend_file
+          depends_on:
+            - task_key: create_raw_database
+            - task_key: create_processed_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/ingestion/ingest_dividend_file
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: ingest_financial_file
+          depends_on:
+            - task_key: create_raw_database
+            - task_key: create_processed_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/ingestion/ingest_financial_file
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: ingest_tickers_details_file
+          depends_on:
+            - task_key: create_raw_database
+            - task_key: create_processed_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/ingestion/ingest_tickers_details_file
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: ingest_tickers_price_file
+          depends_on:
+            - task_key: create_raw_database
+            - task_key: create_processed_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/ingestion/ingest_tickers_price_file
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+      queue:
+        enabled: true

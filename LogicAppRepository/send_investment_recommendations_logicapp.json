@@ -1,0 +1,152 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "folderPath": {
+                                "type": "string"
+                            },
+                            "evaluationDate": {
+                                "type": "string"
+                            },
+                            "email_content": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Lists_blobs_(V2)": {
+                "runAfter": {},
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureblob']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('engineeringdl'))}/foldersV2/@{encodeURIComponent(encodeURIComponent(triggerBody()?['folderPath'],triggerBody()?['evaluationDate']))}",
+                    "queries": {
+                        "useFlatListing": true
+                    }
+                }
+            },
+            "For_each": {
+                "foreach": "@body('Lists_blobs_(V2)')?['value']",
+                "actions": {
+                    "Get_blob_content_(V2)": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['azureblob']['connectionId']"
+                                }
+                            },
+                            "method": "get",
+                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('engineeringdl'))}/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Path']))}/content",
+                            "queries": {
+                                "inferContentType": true
+                            }
+                        }
+                    },
+                    "Append_to_array_variable": {
+                        "runAfter": {
+                            "Get_blob_content_(V2)": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "AppendToArrayVariable",
+                        "inputs": {
+                            "name": "attachmentsArray",
+                            "value": "@json(concat('{\"Name\": \"', items('For_each')?['Name'], '\",  \"ContentBytes\": \"', base64(body('Get_blob_content_(V2)')), '\"}'))"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach"
+            },
+            "Send_email_(V2)": {
+                "runAfter": {
+                    "For_each": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['gmail']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "To": "{your_email}",
+                        "Subject": "Rekomendacje Inwestycyjne na @{triggerBody()?['evaluationDate']}",
+                        "Body": "<p class=\"editor-paragraph\">@{triggerBody()?['email_content']}</p>",
+                        "Attachments": "@variables('attachmentsArray')"
+                    },
+                    "path": "/v2/Mail"
+                }
+            },
+            "Initialize_variable": {
+                "runAfter": {
+                    "Lists_blobs_(V2)": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "attachmentsArray",
+                            "type": "array"
+                        }
+                    ]
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "azureblob": {
+                    "id": "/subscriptions/aaf00daa-aea5-4a18-ad6b-d561a13e7bed/providers/Microsoft.Web/locations/eastus/managedApis/azureblob",
+                    "connectionId": "/subscriptions/aaf00daa-aea5-4a18-ad6b-d561a13e7bed/resourceGroups/engineering_dev/providers/Microsoft.Web/connections/azureblob",
+                    "connectionName": "azureblob",
+                    "connectionProperties": {
+                        "authentication": {
+                            "type": "ManagedServiceIdentity"
+                        }
+                    }
+                },
+                "gmail": {
+                    "id": "/subscriptions/aaf00daa-aea5-4a18-ad6b-d561a13e7bed/providers/Microsoft.Web/locations/eastus/managedApis/gmail",
+                    "connectionId": "/subscriptions/aaf00daa-aea5-4a18-ad6b-d561a13e7bed/resourceGroups/engineering_dev/providers/Microsoft.Web/connections/gmail",
+                    "connectionName": "gmail"
+                }
+            }
+        }
+    }
+}

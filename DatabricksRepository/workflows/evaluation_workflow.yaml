@@ -1,0 +1,63 @@
+resources:
+  jobs:
+    evaluation_workflow:
+      name: evaluation_workflow
+      tasks:
+        - task_key: create_presentation_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/setup/create_presentation_database
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: count_tickers_indicators
+          depends_on:
+            - task_key: create_presentation_database
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/count_tickers_indicators
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: tickers_quality_evaluation
+          depends_on:
+            - task_key: count_tickers_indicators
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/tickers_quality_evaluation
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: count_tickers_dividends
+          depends_on:
+            - task_key: tickers_quality_evaluation
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/count_tickers_dividends
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: stock_evaluation_table
+          depends_on:
+            - task_key: tickers_quality_evaluation
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/stock_evaluation_table
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: stock_price_candles_chart
+          depends_on:
+            - task_key: tickers_quality_evaluation
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/stock_price_candles_chart
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: stock_price_chart
+          depends_on:
+            - task_key: tickers_quality_evaluation
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/stock_price_chart
+            source: WORKSPACE
+          existing_cluster_id: 0321-124940-j3phai8w
+        - task_key: stocks_selection_email_trigger
+          depends_on:
+            - task_key: stock_evaluation_table
+            - task_key: count_tickers_dividends
+            - task_key: stock_price_candles_chart
+            - task_key: stock_price_chart
+          notebook_task:
+            notebook_path: /Workspace/Users/patryk.wojciechowski1@uth.pl/EngineeringProject/DatabricksRepository/transformation/stocks_selection_email_trigger
+            source: WORKSPACE
+      queue:
+        enabled: true
