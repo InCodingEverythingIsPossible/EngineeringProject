@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data",
+				"name": "Copy tickers symbol data",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -90,11 +90,11 @@
 				}
 			},
 			{
-				"name": "Until1",
+				"name": "until tickers available",
 				"type": "Until",
 				"dependsOn": [
 					{
-						"activity": "Copy data",
+						"activity": "Copy tickers symbol data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -134,7 +134,7 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "if symbols left",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -158,11 +158,11 @@
 							}
 						},
 						{
-							"name": "Set variable2",
+							"name": "Update file number",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "if symbols left",
 									"dependencyConditions": [
 										"Succeeded"
 									]

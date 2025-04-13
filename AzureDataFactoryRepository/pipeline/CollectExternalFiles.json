@@ -93,7 +93,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Copy Data for each Ticker",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -124,7 +124,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "Execute Details Pipeline",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {

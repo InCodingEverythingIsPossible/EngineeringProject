@@ -86,6 +86,29 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "Ingestion Databricks Job",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Details Data Requestor",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ExecuteDatabricksJob",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"annotations": []

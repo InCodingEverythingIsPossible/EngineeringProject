@@ -27,7 +27,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Get Nasdaq Top 100 List",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -60,7 +60,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Copy Data for each Ticker",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -70,7 +70,7 @@
 						]
 					},
 					{
-						"activity": "Lookup1",
+						"activity": "Get Nasdaq Top 100 List",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -79,13 +79,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('Get Nasdaq Top 100 List').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data",
+							"name": "Copy price data",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {

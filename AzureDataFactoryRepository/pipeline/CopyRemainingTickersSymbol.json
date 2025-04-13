@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "Get Tickers List",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -40,11 +40,11 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "If tickers left",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Get Tickers List",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -53,12 +53,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup1').output.firstRow.count, 1000)",
+						"value": "@equals(activity('Get Tickers List').output.firstRow.count, 1000)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Set variable3",
+							"name": "Exit from loop",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -90,11 +90,11 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1_copy1",
+							"name": "Copy tickers symbol data",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1_copy1",
+									"activity": "Update file number",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -137,7 +137,7 @@
 											"type": "Expression"
 										},
 										"Cursor": {
-											"value": "@split(activity('Lookup1').output.firstRow.next_url,'?')[1]",
+											"value": "@split(activity('Get Tickers List').output.firstRow.next_url,'?')[1]",
 											"type": "Expression"
 										}
 									}
@@ -157,7 +157,7 @@
 							]
 						},
 						{
-							"name": "Set variable1_copy1",
+							"name": "Update file number",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -174,11 +174,11 @@
 							}
 						},
 						{
-							"name": "Set variable4",
+							"name": "Update output variables",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Copy data1_copy1",
+									"activity": "Copy tickers symbol data",
 									"dependencyConditions": [
 										"Succeeded"
 									]

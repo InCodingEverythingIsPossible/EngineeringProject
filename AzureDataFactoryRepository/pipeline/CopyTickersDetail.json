@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach2",
+				"name": "Copy Data for each Ticker",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -15,7 +15,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data",
+							"name": "Copy detail data",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
